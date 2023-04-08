@@ -1,0 +1,30 @@
+version: '2'
+services:
+  db:
+    image: yobasystems/alpine-mariadb:latest
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+    volumes:
+      - /srv/dev-disk-by-uuid-<replace-with-actaul-uuid>/Appdata/nextclouddb:/var/lib/mysql
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=<password>
+      - MYSQL_PASSWORD=<password>
+      - MYSQL_DATABASE=<db>
+      - MYSQL_USER=<user>
+  app:
+    image: nextcloud:latest
+    ports:
+      - 8181:80
+    links:
+      - db
+      - cache
+    volumes:
+      - /srv/dev-disk-by-uuid-<replace-with-actaul-uuid>/Appdata/nextcloud:/var/www/html
+    restart: unless-stopped
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_HOST_PASSWORD=<generate-long-password>
+  cache:
+    image: redis:alpine
+    command: redis-server --requirepass <generate-long-password>
+    restart: unless-stopped
