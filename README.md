@@ -6,4 +6,4 @@ Personal homelab repository and any knowledge learned from running a homelab
 
 -Argon NEO Case with Argon Fan Hat
 
--Orico USB 5-Bay Drive Enclosure
+-Orico External USB 5-Bay Drive Enclosure
